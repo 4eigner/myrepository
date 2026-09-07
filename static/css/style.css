@@ -200,3 +200,78 @@ h1, .brand {
         justify-content: flex-start;
     }
 }
+
+/* Skills Section ------------------------------------------*/
+
+.skills-section {
+    padding: 4rem 0;
+}
+
+.section-kicker {
+    color: var(--accent-dark);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+}
+
+.section-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Three skill columns */
+
+.skills-grid {
+    display: flex;
+    gap: 5rem;
+}
+
+.skill-group {
+    flex: 1;
+}
+
+.skills-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.skill-group {
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+}
+
+/* Soft skills */
+
+.soft-skills {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+}
+
+.soft-skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.soft-skills-list span {
+    padding: 0.45rem 0.9rem;
+    border: 1px solid var(--ink);
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+@media (max-width: 600px) {
+    .skills-grid {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}
+
+
