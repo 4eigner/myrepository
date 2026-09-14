@@ -22,23 +22,26 @@
     </header>
 
     <main>
-        <section class="experience-section" id="experience">
+        <section class="experience-section" id="education">
             <div class="container">
                 <p class="section-kicker">Perjalanan saya sejauh ini</p>
-                <h1>Experience</h1>
+                <h1>Education</h1>
 
                 <div class="experience-grid">
-                    {% for experience in experience_list %}
+                    {% for education in education_list %}
                         <article class="experience-card">
                             <span class="experience-category">
-                                {{ experience.get_category_display }}
+                                {{ education.degree }}
                             </span>
-                            <h2>{{ experience.title }}</h2>
+                            <h2>{{ education.institution }}</h2>
                             <p class="experience-description">
-                                {{ experience.description }}
+                                {{ education.description }}
+                            </p>
+                            <p class="experience-description">
+                                {{ education.start_year }} - {% if education.end_year %}{{ education.end_year}}{% else %}Sekarang{% endif %}
                             </p>
 
-                            {% if experience.is_ongoing %}
+                            {% if education.is_ongoing %}
                                 <p class="experience-status">Sedang berlangsung</p>
                             {% else %}
                                 <p class="experience-status">Selesai</p>
@@ -46,7 +49,7 @@
                         </article>
                     {% empty %}
                         <p class="empty-state">
-                            Belum ada pengalaman yang ditambahkan.
+                            Belum ada riwayat pendidikan yang ditambahkan.
                         </p>
                     {% endfor %}
                 </div>
