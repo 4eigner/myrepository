@@ -4,12 +4,12 @@ NPM : 2506588374
 
 Kelas : PBP C
 
-### Tugas 1
-1. Saya menggunakan elemen semantik HTML5 seperti <section> dalam pembuatan webiste portofolio saya. Terlepas dari template tutorial 1, saya menggunakan <section> dalam pembuatan skill section untuk tugas 1. Elemen tersebut membantu saya dalam pembuatan static web dengan membuat struktur HTML lebih rapi dan mudah dimaintain jika ingin merubah sesuatu. Hal ini memungkinkan untuk pengembangan web saya berjalan dengan lebih efisien
+### Tugas 2
+1. Ketika user membukan halaman portofolio, browser akan mengirimkan request ke server Django. Request tersebut akan diproses melalui URL configuration oleh project urls.py. Lalu app urls.py akan menentukan view yang dipanggil. Pada file tersebut, URL /experience/ diarahkan ke fungsi show_experience yang akan mengambil data experience dari model Experience yang kemudian dimasukkan ke dalam dictionary context. Model experience mendefinisikan struktur data, seperti title, description, category dll. Ini digunakan untuk mengambil data dari database tanpa harus menulis SQL secara langsung. View mengirimkan context ke template experience.html untuk memberntuk tampilan halaman experience. Setelah semua itu, browser menampilkan halaman experience yang berisi data experience. 
 
-2. Pada desktop, bagian profile saya menggunakan dua kolom sedangkan bagian skills saya menggunakan 3 kolom untuk hard skills saya. Saya mengatasinya dengan media query pada ukuran layar maksimal 600px sehingga layout berubah menjadi satu kolom. Saya memprioritaskan informasi utama seperti nama, foto, dan skills agar tetap mudah dilihat pada layar mobile.
+2. Data disimpan pada model karena model bertanggung jawab untuk mengelola data, sedangkan template bertanggung jawab untuk menampilkan data. Pada project saya, data experience disimpan pada model Experience yang memiliki beberapa field seperti title, description, category dll. Menyimpan data pada model membuat data lebih mudah diperbarui, memisahkan tanggung jawab antar file, dan menghindari duplikasi data karena model bertanggung jawab sepenuhnya pada penyimpanan data.
 
-3. Karena website masih static, setiap perubahan informasi seperti skills harus dilakukan langsung pada kode HTML. Website juga belum dapat mengolah data pengguna secara dinamis. Untuk pengembangan selanjutnya saya ingin mengadakan form kontak yang memungkinkan visitor website untuk mengirimkan saya pesan tanpa harus membuka link external (memencet github, linkedin, email) untuk memudahkan visitor mengkontak saya.'
+3. Perintah makemigrations digunakan untuk membuat file migration berdasarkan perubahan yang dilakukan pada model. File ini berisi instruksi mengenai perubahan struktur database yang perlu dilakukan. Sedangkan perintah migrate digunakan untuk menerapkan migration yang telah dibuat ke database. Contoh penggunaan adalah ketika mengubah models.py dengan menambahkan/mengurangi field atau class. Ketika melakukan perubahan tersebut, maka diharuskan menjalankan perintah makemigrations dan migrate agar database terupdate strukturnya sesuai yang diinginkan.
 
-Saya tidak menggunakan AI dalam proses pembuatan tutorial 1 maupun tugas 1.
+Saya tidak menggunakan AI dalam proses pembuatan tutorial 2 maupun tugas 2.
 
