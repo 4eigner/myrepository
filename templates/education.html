@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Experience - {{ name }}</title>
+    <title>Education - {{ name }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/style.css?v=2">
+    <link rel="stylesheet" href="/static/css/style.css?v=3">
 </head>
 <body>
     <header class="site-header">
@@ -22,35 +22,23 @@
     </header>
 
     <main>
-        <section class="experience-section" id="education">
+        <section class="education-section" id="education">
             <div class="container">
                 <p class="section-kicker">Perjalanan saya sejauh ini</p>
                 <h1>Education</h1>
 
-                <div class="experience-grid">
+                <div class="education-timeline">
                     {% for education in education_list %}
-                        <article class="experience-card">
-                            <span class="experience-category">
-                                {{ education.degree }}
-                            </span>
+                    <div class="timeline-item">
+                        <div class="timeline-year">{{ education.start_year }}{% if education.end_year %} - {{ education.end_year }}{% else %} - Sekarang{% endif %}</div>
+                        <div class="timeline-content">
                             <h2>{{ education.institution }}</h2>
-                            <p class="experience-description">
-                                {{ education.description }}
-                            </p>
-                            <p class="experience-description">
-                                {{ education.start_year }} - {% if education.end_year %}{{ education.end_year}}{% else %}Sekarang{% endif %}
-                            </p>
-
-                            {% if education.is_ongoing %}
-                                <p class="experience-status">Sedang berlangsung</p>
-                            {% else %}
-                                <p class="experience-status">Selesai</p>
-                            {% endif %}
-                        </article>
+                            <p>{{ education.degree }}{% if education.field_of_study %} · {{ education.field_of_study }}{% endif %}</p>
+                            <p>{{ education.description }}</p>
+                        </div>
+                    </div>
                     {% empty %}
-                        <p class="empty-state">
-                            Belum ada riwayat pendidikan yang ditambahkan.
-                        </p>
+                    <p class="empty-state">Belum ada riwayat pendidikan yang ditambahkan.</p>
                     {% endfor %}
                 </div>
             </div>

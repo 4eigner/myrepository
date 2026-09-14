@@ -329,3 +329,68 @@ h1, .brand {
     font-size: 0.85rem;
     font-weight: 600;
 }
+
+/* Education Section ------------------------------------------*/
+
+.education-section {
+    padding: 4rem 0;
+    border-top: 1px solid var(--line);
+}
+
+.section-kicker {
+    color: var(--accent-dark);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.section-kicker h1 {
+    margin: 0.4rem 0 1.5rem;
+    font-size: 2rem;
+}
+
+.education-card {
+    padding: 1.25rem;
+    background-color: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+}
+
+.education-timeline {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.education-timeline::before {
+    content: "";
+    position: absolute;
+    left: 0.73rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #ccc;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -1.6rem;
+    top: 0.3rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background: #c2542a; 
+}
+
+.timeline-year {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #c2542a;
+    margin-bottom: 0.25rem;
+}
