@@ -1,6 +1,6 @@
 from django.forms import ModelForm, TextInput, Textarea, URLInput
 
-from main.models import Experience
+from main.models import Experience, Education
 
 class ExperienceForm(ModelForm):
     class Meta:
@@ -42,3 +42,45 @@ class ExperienceForm(ModelForm):
                 }
             ),
         }
+
+class EducationForm(ModelForm):
+    class Meta:
+        model = Education
+        fields = {
+            "institution",
+            "degree",
+            "field_of_study",
+            "description",
+            "start_year",
+            "end_year",
+        }
+
+        labels = {
+            "institution": "Masukkan nama institusi",
+            "degree": "Masukkan derajat sekolah",
+            "field_of_study": "Masukkan bidang pendidikan",
+            "description": "Deskripsi pendidikan",
+            "start_year": "Tahun memulai",
+            "end_year": "Tahun berakhir",
+        }
+
+        widgets = {
+            "title": TextInput(
+                attrs={
+                    "placeholder": "Software Engineer Intern",
+                    "maxlength": 255,
+                }
+            ),
+            "description": Textarea(
+                attrs={
+                    "placeholder": "Ceritakan pengalamanmu",
+                    "rows": 3,
+                }
+            ),
+            "thumbnail": URLInput(
+                attrs={
+                    "placeholder": "/static/img/MaurillaPortofolioPhoto.png",
+                }
+            ),
+        }
+
