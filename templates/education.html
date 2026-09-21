@@ -7,7 +7,13 @@
         <section class="education-section" id="education">
             <div class="container">
                 <p class="section-kicker">Perjalanan saya sejauh ini</p>
-                <h1>Education</h1>
+                <div class="experience-header">
+                    <h1>Education</h1>
+                    <a href="{% url 'main:create_education' %}" class="button experience-add-button">
+                        <span aria-hidden="true">+</span>
+                        Tambah Pendidikan
+                    </a>
+                </div>
 
                 <div class="education-timeline">
                     {% for education in education_list %}
@@ -17,6 +23,12 @@
                             <h2>{{ education.institution }}</h2>
                             <p>{{ education.degree }}{% if education.field_of_study %} · {{ education.field_of_study }}{% endif %}</p>
                             <p>{{ education.description }}</p>
+                            <div class="experience-card-actions">
+                                <div class="experience-actions">
+                                    <a href="{% url 'main:update_education' education.id %}" class="button">Edit</a>
+                                    {% include "components/education_delete_modal.html" with education=education %}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     {% empty %}

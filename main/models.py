@@ -18,6 +18,7 @@ class Experience(models.Model):
     thumbnail = models.URLField(blank=True, null=True)
     started_at = models.DateTimeField()
     ended_at = models.DateTimeField(blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.title
     
@@ -34,6 +35,7 @@ class Education(models.Model):
     description = models.TextField()
     start_year = models.PositiveIntegerField()
     end_year = models.PositiveIntegerField(blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.degree

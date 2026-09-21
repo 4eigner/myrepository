@@ -276,6 +276,10 @@ h1, .brand {
 
 /* Experience Section ------------------------------------------*/
 
+.experience-section {
+    padding: 4rem 0;
+}
+
 .experience-header {
     width: 100%;
     display: flex;
