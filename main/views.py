@@ -1,12 +1,14 @@
 from django.contrib import messages
 from django.core import serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
+
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth.decorators import login_required  
+from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import PermissionDenied        
+
 import datetime
 
 from main.models import Experience, Education
@@ -77,6 +79,26 @@ def delete_experience(request, experience_id):
 
     return redirect("main:show_experience")
 
+@login_required(login_url="/login/")
+@permission_required("main.change_experience", raise_exception=True)
+def update_experience(request, experience_id):
+
+    experience = get_object_or_404(Experience, pk=experience_id)
+    form = ExperienceForm(request.POST or None, instance=experience)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Pengalaman berhasil diperbarui!")
+        return redirect("main:show_experience")
+
+    context = {
+        "name": "Maurilla",
+        "form": form,
+        "is_edit": True,
+        "experience": experience,
+    }
+    return render(request, "experiences_form.html", context)
+
 def get_experiences_json(request):
     title_query = request.GET.get("title", "").strip()
     experiences = Experience.objects.all()
@@ -87,7 +109,7 @@ def get_experiences_json(request):
     experiences_json = serializers.serialize(
         "json", experiences, use_natural_foreign_keys=True
     )
-    
+
     return HttpResponse(experiences_json, content_type="application/json")
 
 @login_required(login_url="/login/")
@@ -144,9 +166,8 @@ def create_education(request):
     return render(request, "educations_form.html", context)
 
 @login_required(login_url="/login/")
+@permission_required("main.change_education", raise_exception=True)
 def update_education(request, education_id):
-    if not request.user.is_superuser:
-        raise PermissionDenied
 
     education = get_object_or_404(Education, pk=education_id)
     form = EducationForm(request.POST or None, instance=education)
@@ -166,6 +187,11 @@ def update_education(request, education_id):
 
 @login_required(login_url="/login/")
 def delete_education(request, education_id):
+
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
+    
     education = get_object_or_404(Education, pk=education_id)
 
     if request.method == "POST":

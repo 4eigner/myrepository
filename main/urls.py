@@ -6,6 +6,7 @@ from main.views import (
     show_education,
     create_experience,
     get_experiences_json,
+    update_experience,
     delete_experience,
     create_education,
     update_education,
@@ -26,6 +27,7 @@ urlpatterns = [
     path("experience/add/", create_experience, name="create_experience"),
     path("api/experiences/", get_experiences_json, name="get_experiences_json"),
     path("experience/<uuid:experience_id>/delete/", delete_experience, name="delete_experience"),
+    path("experience/<uuid:experience_id>/edit/", update_experience, name="update_experience"),
 
     path("education/add/", create_education, name="create_education"),
     path("education/<uuid:education_id>/edit/", update_education, name="update_education"),

@@ -9,30 +9,55 @@
                 <p class="section-kicker">Perjalanan saya sejauh ini</p>
                 <div class="experience-header">
                     <h1>Education</h1>
-                    <a href="{% url 'main:create_education' %}" class="button experience-add-button">
-                        <span aria-hidden="true">+</span>
-                        Tambah Pendidikan
-                    </a>
-                </div>
 
+                    {% if user.is_superuser %}
+                        <a href="{% url 'main:create_education' %}" class="button experience-add-button">
+                            <span aria-hidden="true">+</span>
+                            Tambah Pendidikan
+                        </a>
+                    {% endif %}
+                </div>
                 <div class="education-timeline">
                     {% for education in education_list %}
                     <div class="timeline-item">
-                        <div class="timeline-year">{{ education.start_year }}{% if education.end_year %} - {{ education.end_year }}{% else %} - Sekarang{% endif %}</div>
+                        <div class="timeline-year">
+                            {{ education.start_year }}
+                            {% if education.end_year %}
+                                - {{ education.end_year }}
+                            {% else %}
+                                - Sekarang
+                            {% endif %}
+                        </div>
                         <div class="timeline-content">
                             <h2>{{ education.institution }}</h2>
-                            <p>{{ education.degree }}{% if education.field_of_study %} · {{ education.field_of_study }}{% endif %}</p>
+                            <p>
+                                {{ education.degree }}
+                                {% if education.field_of_study %}
+                                    · {{ education.field_of_study }}
+                                {% endif %}
+                            </p>
                             <p>{{ education.description }}</p>
                             <div class="experience-card-actions">
                                 <div class="experience-actions">
-                                    <a href="{% url 'main:update_education' education.id %}" class="button">Edit</a>
-                                    {% include "components/education_delete_modal.html" with education=education %}
+
+                                    {% if perms.main.change_education %}
+                                        <a href="{% url 'main:update_education' education.id %}"
+                                           class="button">
+                                            Edit
+                                        </a>
+                                    {% endif %}
+
+                                    {% if user.is_superuser %}
+                                        {% include "components/education_delete_modal.html" with education=education %}
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
                     </div>
                     {% empty %}
-                    <p class="empty-state">Belum ada riwayat pendidikan yang ditambahkan.</p>
+                    <p class="empty-state">
+                        Belum ada riwayat pendidikan yang ditambahkan.
+                    </p>
                     {% endfor %}
                 </div>
             </div>
