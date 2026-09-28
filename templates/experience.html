@@ -9,11 +9,13 @@
                 <p class="section-kicker">Pengalaman saya</p>
                 <div class="experience-header">
                     <h1>Experiences</h1>
+                {% if user.is_superuser %}
                     <a href="{% url 'main:create_experience' %}"
                        class="button experience-add-button">
                         <span aria-hidden="true">+</span>
                         Tambah pengalaman
                     </a>
+                {% endif %}
                 </div>
                 <form method="get"
                       action="{% url 'main:show_experience' %}"
@@ -26,23 +28,23 @@
                            aria-label="Cari berdasarkan nama pengalaman">
                     <button type="submit" class="button">Cari</button>
                 </form>
-                <div class="experience-grid experience-grid">
+                <div class="experience-grid">
                     {% for experience in experience_list %}
                         <article class="experience-card">
-                            {% if experience.experience_image_url %}
-                                <img src="{{ experience.experience_image_url }}"
-                                     alt="Gambar {{ experience.title }}"
-                                     class="experience-image">
+                            {% if experience.thumbnail %}
+                                <img src="{{ experience.thumbnail }}"
+                                    alt="Gambar {{ experience.title }}"
+                                    class="experience-image">
                             {% endif %}
                             <h2>{{ experience.title }}</h2>
-                            <span class="experience-category">{{ experience.category }}</span>
+                            <span class="experience-category">{{ experience.get_category_display }}</span>
                             <p class="experience-description">{{ experience.description }}</p>
                             <div class="experience-card-actions">
                                 <div class="experience-actions">
-                                    {% if experience.experience_url %}
-                                        <a href="{{ experience.experience_url }}" class="button">Lihat Experience</a>
+                                    {% include "components/experience_star.html" with experience=experience %}
+                                    {% if user.is_superuser %}
+                                        {% include "components/experience_delete_modal.html" with experience=experience %}
                                     {% endif %}
-                                    {% include "components/experience_delete_modal.html" with experience=experience %}
                                 </div>
                             </div>
                         </article>
