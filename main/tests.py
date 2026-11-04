@@ -2,7 +2,10 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
+
 from main.models import Experience, Education
+
+import datetime
 
 
 class MainTest(TestCase):
@@ -11,6 +14,9 @@ class MainTest(TestCase):
             title="Asisten Dosen PBP",
             description="Membantu mahasiswa memahami pengembangan web.",
             category="part-time",
+            started_at=datetime.date(2026, 1, 1),
+            ended_at=datetime.date(2026, 6, 30),
+            is_ongoing=False,
         )
 
         self.education = Education.objects.create(
