@@ -1,7 +1,6 @@
-
 import uuid
 
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Permission, User
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
@@ -16,15 +15,18 @@ class ExperienceAPITest(APITestCase):
             password="test-password",
             email="owner@example.com",
         )
+
         self.visitor = User.objects.create_user(
             username="visitor",
             password="test-password",
         )
+
         self.experience = Experience.objects.create(
             title="Software Development Intern",
             description="Developed a web application",
             category="internship",
-            is_ongoing=False,
+            started_at="2026-01-01T00:00:00Z",
+            ended_at="2026-06-30T00:00:00Z",
         )
 
         self.list_url = reverse("api:experience-list")
@@ -39,7 +41,8 @@ class ExperienceAPITest(APITestCase):
             "title": "Research Assistant",
             "description": "Conducted research and data analysis",
             "category": "research",
-            "is_ongoing": False,
+            "started_at": "2026-01-01T00:00:00Z",
+            "ended_at": "2026-06-30T00:00:00Z",
         }
 
     def test_public_list_and_detail(self):
@@ -200,12 +203,10 @@ class ExperienceAPITest(APITestCase):
         self.assertEqual(response.data["star_count"], 0)
         self.assertFalse(response.data["is_starred"])
 
-    def test_staff_and_editor_cannot_manage_tutorial_experiences(self):
+    def test_staff_without_permission_cannot_write(self):
+        # Being staff alone grants nothing in the API.
         self.visitor.is_staff = True
         self.visitor.save()
-
-        editor_group, _ = Group.objects.get_or_create(name="Editor")
-        self.visitor.groups.add(editor_group)
         self.client.force_authenticate(user=self.visitor)
 
         response = self.client.patch(
@@ -213,6 +214,42 @@ class ExperienceAPITest(APITestCase):
         )
         self.assertEqual(
             response.status_code, status.HTTP_403_FORBIDDEN
+        )
+        self.experience.refresh_from_db()
+        self.assertEqual(
+            self.experience.title, "Software Development Intern"
+        )
+
+    def test_editor_can_patch_but_not_create_or_delete(self):
+        editor = User.objects.create_user(
+            username="editor", password="test-password"
+        )
+        editor.user_permissions.add(
+            Permission.objects.get(codename="change_experience")
+        )
+        self.client.force_authenticate(user=editor)
+
+        response = self.client.patch(
+            self.detail_url, {"title": "Edited by editor"}, format="json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.experience.refresh_from_db()
+        self.assertEqual(self.experience.title, "Edited by editor")
+
+        response = self.client.post(
+            self.list_url, self.payload, format="json"
+        )
+        self.assertEqual(
+            response.status_code, status.HTTP_403_FORBIDDEN
+        )
+        self.assertEqual(Experience.objects.count(), 1)
+
+        response = self.client.delete(self.detail_url)
+        self.assertEqual(
+            response.status_code, status.HTTP_403_FORBIDDEN
+        )
+        self.assertTrue(
+            Experience.objects.filter(pk=self.experience.pk).exists()
         )
 
     def test_wrong_method(self):
